@@ -32,8 +32,11 @@ module.exports = function (app) {
 
         if (!validCol) conflict.push("column")
 
+      // check region
+      solver.checkRegionPlacement(puzzle)
+
       // generate response
-      if (validRow && validCol) res.json({valid: true})
+      if (validRow && validCol) res.json( {valid: true} )
       else {
         res.json({
           valid: false,

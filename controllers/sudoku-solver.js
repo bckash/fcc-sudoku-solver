@@ -123,6 +123,52 @@ class SudokuSolver {
 
   checkRegionPlacement(puzzleString, row, column, value) {
 
+    // --> gives starting point (index) for creating "square root" regions; and pushes them to marix array
+    function createArrayOfRegions(str) {
+      let matrix = []
+      let matrixElementsCount = str.length
+      let matrixDimension = Math.sqrt(matrixElementsCount)
+      let regionDimension = Math.sqrt(matrixDimension)
+
+      let y = 0 // "y" moves index to a new start verticly
+      while (y < matrixElementsCount) {
+
+        let x = 0 // "x" moves index to a new start verticly
+        while(x < matrixDimension) {
+         matrix.push(createRegion(str, x + y, matrixDimension))
+         x += regionDimension
+        }
+
+      y += regionDimension*matrixDimension
+      }
+
+    return matrix
+    }
+
+    // pushes elements from matrix to a new "square root" region 
+    function createRegion(str, firstIndex, matrixDim){
+      let region = []
+      let regionDimension = Math.sqrt(matrixDim)
+
+      let y = 0 // "y" moves index to next row
+      while (y < regionDimension*matrixDim) {
+
+        let x = 0 // "x" moves index to next column
+        while (x < regionDimension) {
+          region.push(str[firstIndex + x + y])
+          x += 1
+        }
+      
+      y += matrixDim
+      }
+      
+      return region
+    }
+
+    console.log(createArrayOfRegions(puzzleString))
+
+
+
   }
 
   solve(puzzleString) {

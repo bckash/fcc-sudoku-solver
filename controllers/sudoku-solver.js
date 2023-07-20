@@ -83,7 +83,6 @@ class SudokuSolver {
       ? validation = false
       : validation = true
 
-      console.log(validation)
     return validation
   }
 
@@ -121,7 +120,7 @@ class SudokuSolver {
     return !validation
   }
 
-  checkRegionPlacement(puzzleString, row, column, value) {
+  checkRegionPlacement(puzzleString, coordinate, value) {
 
     // --> gives starting point (index) for creating "square root" regions; and pushes them to marix array
     function createArrayOfRegions(str) {
@@ -176,18 +175,18 @@ class SudokuSolver {
       let region;
       let regionDim = Math.sqrt(matrixDim)
 
-      let yy = 0
-      while (yy < matrixDim) {
+      let xx = 0
+      while (xx < matrixDim) {
 
-        let xx = 0
-        while (xx < matrixDim)  {
+        let yy = 0
+        while (yy < matrixDim)  {
           region = createCoordinateRegion(xc, xx, yc, yy, regionDim
             )
           matrix.push(region)
-          xx += regionDim
+          yy += regionDim
         }
 
-      yy += regionDim
+      xx += regionDim
       }
     
       return matrix
@@ -215,10 +214,21 @@ class SudokuSolver {
     let coordinateMatrix = createCoordinateRegionsMatrix(
       xCoordinates, yCoordinates, 9
     )
+    
+    // get the region index
+    let coordinatRegion = coordinateMatrix.find( region => {
+      return region.includes(coordinate)
+    })
 
-    console.log(arrayOfRegions)
-    console.log(coordinateMatrix)
-  
+    let regionIndex = coordinateMatrix.indexOf(coordinatRegion)
+
+    // check if region contain coordinate
+    let check = arrayOfRegions[regionIndex].includes(value)
+    console.log("..............")
+    console.log("value = "+value)
+    console.log(arrayOfRegions[regionIndex])
+    console.log(check)
+    return check
   }
 
   solve(puzzleString) {

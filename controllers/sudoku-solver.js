@@ -165,10 +165,60 @@ class SudokuSolver {
       return region
     }
 
-    console.log(createArrayOfRegions(puzzleString))
+    let arrayOfRegions = createArrayOfRegions(puzzleString)
 
+    const xCoordinates = ["a","b","c","d","e","f","g","h","i"]
+    const yCoordinates = ["1","2","3","4","5","6","7","8","9"]
 
+    // creates matrix of "coordinate regions" 
+    function createCoordinateRegionsMatrix(xc, yc, matrixDim){
+      let matrix = []
+      let region;
+      let regionDim = Math.sqrt(matrixDim)
 
+      let yy = 0
+      while (yy < matrixDim) {
+
+        let xx = 0
+        while (xx < matrixDim)  {
+          region = createCoordinateRegion(xc, xx, yc, yy, regionDim
+            )
+          matrix.push(region)
+          xx += regionDim
+        }
+
+      yy += regionDim
+      }
+    
+      return matrix
+    }
+
+    // creates 1 region of coordinates
+    function createCoordinateRegion(xc, xx, yc, yy, regionDim) {
+      let region = []
+
+      let y = 0
+      while (y < regionDim) {
+
+        let x = 0
+        while (x < regionDim) {
+          region.push( xc[x + xx] + yc[y + yy] )
+          x += 1
+        }
+
+      y += 1  
+      }
+      
+    return region
+    }
+
+    let coordinateMatrix = createCoordinateRegionsMatrix(
+      xCoordinates, yCoordinates, 9
+    )
+
+    console.log(arrayOfRegions)
+    console.log(coordinateMatrix)
+  
   }
 
   solve(puzzleString) {

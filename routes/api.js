@@ -32,7 +32,7 @@ module.exports = function (app) {
       }
 
       // generate response
-      if (validRow && validCol) {
+      if (conflict.length === 0) {
         res.json({
           valid: true
         })

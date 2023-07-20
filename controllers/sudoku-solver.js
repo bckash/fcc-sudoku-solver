@@ -45,7 +45,6 @@ class SudokuSolver {
     // create array with rows (as subststrings)
     let rowArray = createRowArray(puzzleString)
     let rowArrayNr;
-    let validation;
 
     // switch row letters to numbers - to use them as index numbers for rowArray
     switch (row.toLowerCase()) {
@@ -79,11 +78,9 @@ class SudokuSolver {
     }
 
     // check if row contains coordinate value
-    rowArray[rowArrayNr].includes(value)
-      ? validation = false
-      : validation = true
+    let check = rowArray[rowArrayNr].includes(value)
 
-    return validation
+    return check
   }
 
   checkColPlacement(puzzleString, row, column, value) {
@@ -111,13 +108,12 @@ class SudokuSolver {
       i += 1
     }
     
-    // if value is in array, validation = true. if not, validation = false
-    let validation = arrayOfColumns[column-1].some( char => {
-      // console.log(arrayOfColumns[column-1])
+    // check if column contains value
+    let check = arrayOfColumns[column-1].some( char => {
       return char === value
     })
 
-    return !validation
+    return check
   }
 
   checkRegionPlacement(puzzleString, coordinate, value) {
@@ -224,10 +220,10 @@ class SudokuSolver {
 
     // check if region contain coordinate
     let check = arrayOfRegions[regionIndex].includes(value)
-    console.log("..............")
-    console.log("value = "+value)
-    console.log(arrayOfRegions[regionIndex])
-    console.log(check)
+    // console.log("..............")
+    // console.log("value = "+value)
+    // console.log(arrayOfRegions[regionIndex])
+    // console.log(check)
     return check
   }
 

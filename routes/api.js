@@ -14,30 +14,30 @@ module.exports = function (app) {
       let colCoor = coordinate[1]
       let value = req.body.value
 
-      let validRow;
-      let validCol;
       let conflict = [];
 
       // check rows
-      solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)
-        ? validRow = true
-        : validRow = false
-
-      if (!validRow) conflict.push("row")
+      if (solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)) {
+        conflict.push("row")
+      }
 
       // check columnns
-      solver.checkColPlacement(puzzle, rowCoor, colCoor, value)
-        ? validCol = true
-        : validCol = false
-
-        if (!validCol) conflict.push("column")
+      if (solver.checkColPlacement(puzzle, rowCoor, colCoor, value)) {
+        conflict.push("column")
+      }
 
       // check region
-      solver.checkRegionPlacement(puzzle, coordinate, value)
+      if (solver.checkRegionPlacement(puzzle, coordinate, value)){
+        conflict.push("region")
+      }
 
       // generate response
-      if (validRow && validCol) res.json( {valid: true} )
-      else {
+      if (validRow && validCol) {
+        res.json({
+          valid: true
+        })
+
+      } else {
         res.json({
           valid: false,
           conflict: conflict

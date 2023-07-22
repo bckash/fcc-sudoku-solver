@@ -116,7 +116,7 @@ class SudokuSolver {
     return check
   }
 
-  checkRegionPlacement(puzzleString, coordinate, value) {
+  checkRegionPlacement(puzzleString, row, column, value) {
 
     // --> gives starting point (index) for creating "square root" regions; and pushes them to marix array
     function createArrayOfRegions(str) {
@@ -212,6 +212,8 @@ class SudokuSolver {
     )
     
     // get the region index
+    let coordinate = row.toLowerCase() + column
+
     let coordinatRegion = coordinateMatrix.find( region => {
       return region.includes(coordinate)
     })

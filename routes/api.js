@@ -10,40 +10,64 @@ module.exports = function (app) {
     .post((req, res) => {
       let puzzle = req.body.puzzle
       let coordinate = req.body.coordinate
-      let rowCoor = coordinate[0]
-      let colCoor = coordinate[1]
       let value = req.body.value
+
+      console.log("v = "+value)
+      console.log("c = "+coordinate)
+
+      const puzzleRegex = /^[\d.]+$/
+      const coodinateRegex = /^[A-Ia-i][1-9]$/
+      const valueRegex = /^[1-9]$/
 
       let conflict = [];
 
-      // check rows
-      if (solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)) {
-        conflict.push("row")
-      }
+      if (!puzzleRegex.test(puzzle)) {
+        res.json({ error: 'Invalid characters in puzzle' })
 
-      // check columnns
-      if (solver.checkColPlacement(puzzle, rowCoor, colCoor, value)) {
-        conflict.push("column")
-      }
+      } else if (puzzle.length !== 81) {
+        res.json({ error: 'Expected puzzle to be 81 characters long' })
 
-      // check region
-      if (solver.checkRegionPlacement(puzzle, coordinate, value)){
-        conflict.push("region")
-      }
+      } else if (!puzzle || !coordinate  || !value ) {
+        res.json({ error: 'Required field(s) missing' })
+      
+      } else if (!coodinateRegex.test(coordinate)) {
+        res.json({ error: 'Invalid coordinate'})
 
-      // generate response
-      if (conflict.length === 0) {
-        res.json({
-          valid: true
-        })
+      } else if (!valueRegex.test(value)) {
+        res.json({ error: 'Invalid value' })
 
       } else {
-        res.json({
-          valid: false,
-          conflict: conflict
-        })
-      }
+        let rowCoor = coordinate[0]
+        let colCoor = coordinate[1]
 
+        // check if row contains value
+        if (solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)) {
+          conflict.push("row")
+        }
+  
+        // check if columnn contains value
+        if (solver.checkColPlacement(puzzle, rowCoor, colCoor, value)) {
+          conflict.push("column")
+        }
+  
+        // check if region contains value
+        if (solver.checkRegionPlacement(puzzle, rowCoor, colCoor, value)){
+          conflict.push("region")
+        }
+  
+        // generate response
+        if (conflict.length === 0) {
+          res.json({
+            valid: true
+          })
+  
+        } else {
+          res.json({
+            valid: false,
+            conflict: conflict
+          })
+        }
+      }
     });
     
   app.route('/api/solve')

@@ -44,9 +44,9 @@ class SudokuSolver {
 
     // create array with rows (as subststrings)
     let rowArray = createRowArray(puzzleString)
-    let rowArrayNr;
-
+    
     // switch row letters to numbers - to use them as index numbers for rowArray
+    let rowArrayNr;
     switch (row.toLowerCase()) {
       case "a":
         rowArrayNr = 0
@@ -78,7 +78,12 @@ class SudokuSolver {
     }
 
     // check if row contains coordinate value
-    let check = rowArray[rowArrayNr].includes(value)
+    let rowArrayValue = rowArray[rowArrayNr][column-1]
+    let check
+
+    rowArrayValue === value 
+      ? check = "same"
+      : check = rowArray[rowArrayNr].includes(value)
 
     return check
   }

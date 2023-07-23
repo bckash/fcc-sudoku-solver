@@ -39,35 +39,45 @@ module.exports = function (app) {
       } else {
         let rowCoor = coordinate[0]
         let colCoor = coordinate[1]
+        let sameValues;
 
-        // check if row contains value
-        if (solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)) {
-          conflict.push("row")
-        }
-  
-        // check if columnn contains value
-        if (solver.checkColPlacement(puzzle, rowCoor, colCoor, value)) {
-          conflict.push("column")
-        }
-  
-        // check if region contains value
-        if (solver.checkRegionPlacement(puzzle, rowCoor, colCoor, value)){
-          conflict.push("region")
-        }
-  
-        // generate response
-        if (conflict.length === 0) {
+        // check if value and puzzle value are the same
+        if ((solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)) === "same") {
           res.json({
             valid: true
           })
-  
+
         } else {
-          res.json({
-            valid: false,
-            conflict: conflict
-          })
-        }
+          // check if row contains value
+          if (solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)) {
+            conflict.push("row")
+          }
+    
+          // check if columnn contains value
+          if (solver.checkColPlacement(puzzle, rowCoor, colCoor, value)) {
+            conflict.push("column")
+          }
+    
+          // check if region contains value
+          if (solver.checkRegionPlacement(puzzle, rowCoor, colCoor, value)){
+            conflict.push("region")
+          }
+
+          // generate response
+          if (conflict.length === 0) {
+            res.json({
+              valid: true
+            })
+    
+          } else {
+            res.json({
+              valid: false,
+              conflict: conflict
+            })
+          }
+        } 
       }
+
     });
     
   app.route('/api/solve')

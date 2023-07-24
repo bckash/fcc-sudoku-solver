@@ -87,6 +87,6 @@ module.exports = function (app) {
 
       output 
         ? res.json({error: output}) 
-        : res.json({error: "no error"})
+        : console.log(solver.solve(puzzle))
     });
 };

@@ -68,7 +68,7 @@ class SudokuSolver {
   }
 
   checkRegionPlacement(puzzleString, row, column, value) {
-    
+
     let arrayOfRegions = checker.createArrayOfRegions(puzzleString)
 
     const xCoordinates = ["a","b","c","d","e","f","g","h","i"]
@@ -97,6 +97,38 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
+
+    // find dot region
+    let arrayOfRegions = checker.createArrayOfRegions(puzzleString)
+    let dotRegion = arrayOfRegions.find(region => {
+      return region.find(val => {
+        return val === "."
+      })
+    })
+
+    // find dot region potential values
+    const yCoordinates = ["1","2","3","4","5","6","7","8","9"]
+    let drPotentialValues = yCoordinates
+      .filter( val => !dotRegion.includes(val))
+
+    console.log(drPotentialValues)
+
+    // find dot region potential coordinates
+    const xCoordinates = ["a","b","c","d","e","f","g","h","i"]
+    let coordinateMatrix = checker.createCoordinateRegionsMatrix(
+      xCoordinates, yCoordinates, 9
+    )
+    let coordinateRegion = 
+      coordinateMatrix[arrayOfRegions.indexOf (dotRegion)]
+
+    let dotRegionCoordinatesIndexes = dotRegion
+      .map( (val, index) => val === "." ? index : "x")
+      .filter( val => val !== "x" )
+
+    let dotRegionCoordinates = dotRegionCoordinatesIndexes
+    .map( idx => coordinateRegion[idx])
+
+    console.log(dotRegionCoordinates)
 
   }
 }

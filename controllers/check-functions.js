@@ -70,7 +70,7 @@ class CheckFunctions {
       let matrixDimension = Math.sqrt(matrixElementsCount)
       let regionDimension = Math.sqrt(matrixDimension)
 
-      // pushes elements from matrix to a new "square root" region 
+      // pushes elements from string to a new "square root" region 
       function createRegion(str, firstIndex, matrixDim){
         let region = []
         let regionDimension = Math.sqrt(matrixDim)
@@ -120,7 +120,7 @@ class CheckFunctions {
 
           let x = 0
           while (x < regionDim) {
-            region.push( xc[x + xx] + yc[y + yy] )
+            region.push( xc[y + xx] + yc[x + yy] )
             x += 1
           }
 

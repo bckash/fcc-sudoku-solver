@@ -98,8 +98,11 @@ class SudokuSolver {
 
   solve(puzzleString) {
 
-    // find dot region
+    // create puzzleString region representation in form of subbarrays  
     let arrayOfRegions = checker.createArrayOfRegions(puzzleString)
+    let solveSudoku = arrayOfRegions;
+
+    // find dot region
     let dotRegion = arrayOfRegions.find(region => {
       return region.find(val => {
         return val === "."
@@ -119,7 +122,7 @@ class SudokuSolver {
       xCoordinates, yCoordinates, 9
     )
     let coordinateRegion = 
-      coordinateMatrix[arrayOfRegions.indexOf (dotRegion)]
+      coordinateMatrix[arrayOfRegions.indexOf(dotRegion)]
 
     let dotRegionCoordinatesIndexes = dotRegion
       .map( (val, index) => val === "." ? index : "x")
@@ -127,9 +130,67 @@ class SudokuSolver {
 
     let dotRegionCoordinates = dotRegionCoordinatesIndexes
     .map( idx => coordinateRegion[idx])
-
+    
     console.log(dotRegionCoordinates)
+    
+    // check if any value has only one coordinte with no conflicts 
+    let checkArray = []
+    drPotentialValues.map( val => {
+      dotRegionCoordinates.map( coord => {
+        let value = val
+        let row = coord[0]
+        let column = coord[1]
+        let rowCheck = this.checkRowPlacement(puzzleString, row, column, value)
+        let colCheck = this.checkColPlacement(puzzleString, row, column, value)
 
+        // console.log("value = "+value)
+        // console.log("row = "+row)
+        // console.log("col = "+column)
+        // console.log("rowcheck : "+rowCheck)
+        // console.log("colcheck : "+colCheck)
+        // console.log(".........")
+
+        if (!rowCheck && !colCheck) {
+          checkArray.push(
+            {coordinate : coord, value: val}
+          )
+        } 
+      })
+    })
+
+    console.log(checkArray)
+
+    let foundValue;
+    drPotentialValues.map( val => {
+      let count = 0;
+      checkArray.map( obj => {
+        if (obj.value === val) count += 1
+      })
+      if (count === 1) {
+        foundValue = val
+      }
+    })
+
+    console.log("foundvalue = "+foundValue)
+
+    // get the found value coordinate
+    let foundCoordinate
+    checkArray.map( obj => {
+      if (obj.value === foundValue) foundCoordinate = obj.coordinate  
+    })
+
+    console.log("foundcoordinate = "+foundCoordinate)
+    // console.log(arrayOfRegions)
+
+    // get the index from coordinatematrix
+    let indexOfDotRegion = arrayOfRegions.indexOf(dotRegion)
+    let indexOfCoordinate =  coordinateMatrix[indexOfDotRegion].indexOf(foundCoordinate)
+
+    console.log("indexOfDotRegion = "+indexOfDotRegion)
+    console.log("indexOfCoordinate = "+indexOfCoordinate)
+
+    solveSudoku[indexOfDotRegion][indexOfCoordinate] = foundValue
+    console.log(solveSudoku[indexOfDotRegion])
   }
 }
 

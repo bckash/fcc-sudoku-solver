@@ -146,6 +146,40 @@ class CheckFunctions {
         
     return matrix
     }
+
+    // create a puzzle string (with elelements in correct order) "from array of regions"
+    createPuzzleStringFromAOR(aor){
+      // create string region after region order
+      let regionOrderString = aor.reduce((acc, curVal) => {
+        return acc.concat(curVal)
+      }, [])
+
+      let puzzleStringOrderArr = []
+      // sort elelements in puzzl string order
+      let k = 0 
+      while (k < 81) {
+
+        let j = 0
+        while (j < 9) {
+
+          let i = 0
+          while (i < 27) {
+            puzzleStringOrderArr.push(regionOrderString.slice(i+j+k,3+i+j+k))
+            i+=9 // + three rows
+          }
+
+        j+=3 // + column
+        }
+
+      k+=27 // + three regions
+      }
+      // create PS
+      let puzzleString = puzzleStringOrderArr.reduce((acc, curVal) => {
+        return acc.concat(curVal.join(""))
+      }, "")
+
+      return puzzleString
+    }
 }
 
 module.exports = CheckFunctions

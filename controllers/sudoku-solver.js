@@ -111,8 +111,6 @@ class SudokuSolver {
     let cReg = this.checkRegionPlacement
     
 
-    function isValid (arr, reg, el, val) {
-
       while (dotRegion) {
         console.log("| EV  = "+elementValue)
         console.log("| LVV = "+lastValidValue)
@@ -158,7 +156,14 @@ class SudokuSolver {
               console.log("backtrack 2")
               console.log(validCoordinatesArray)
 
-                data[reg][el] = `${value}`;
+              backtrack2 = true // prevent code from backtracking 1, straight after, when lastValidValue changes
+              let backTrackTwo = validCoordinatesArray[validCoordinatesArray.length-2]
+              let backTrackTwoOne = validCoordinatesArray[validCoordinatesArray.length-1]
+              arrayOfRegions[backTrackTwo[0]][backTrackTwo[1]] = "." // <---
+              arrayOfRegions[backTrackTwoOne[0]][backTrackTwoOne[1]] = "."
+              elementValue = backTrackTwo[2] +1
+              validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-2)
+              lastValidValue = validCoordinatesArray[validCoordinatesArray.length-1][2]
 
               console.log(backTrackTwo)
               console.log(validCoordinatesArray)

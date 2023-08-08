@@ -83,6 +83,7 @@ module.exports = function (app) {
   app.route('/api/solve')
     .post((req, res) => {
       let puzzle = req.body.puzzle
+      console.log("puzzle = "+puzzle)
       let output = solver.validate(puzzle)
 
       output 

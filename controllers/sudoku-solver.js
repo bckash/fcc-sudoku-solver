@@ -125,8 +125,8 @@ class SudokuSolver {
       })
 
       while (dotRegion) {
-        // console.log("| EV  = "+elementValue)
-        // console.log("| LVV = "+lastValidValue)
+        console.log("| EV  = "+elementValue)
+        console.log("| LVV = "+lastValidValue)
         dotRegionIndex = arrayOfRegions.indexOf(dotRegion)
         dotElementIndex = dotRegion.indexOf(".")
         
@@ -164,8 +164,8 @@ class SudokuSolver {
           if (elementValue===10){
 
             if (lastValidValue===9) {
-              // console.log("backtrack 2")
-              // console.log(validCoordinatesArray)
+              console.log("backtrack 2")
+              console.log(validCoordinatesArray)
 
               backtrack2 = true // prevent code from backtracking 1, straight after, when lastValidValue changes
               let backTrackTwo = validCoordinatesArray[validCoordinatesArray.length-2]
@@ -176,14 +176,14 @@ class SudokuSolver {
               validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-2)
               lastValidValue = validCoordinatesArray[validCoordinatesArray.length-1][2]
 
-              // console.log(backTrackTwo)
-              // console.log(validCoordinatesArray)
-              // console.log("last v v = "+lastValidValue)
+              console.log(backTrackTwo)
+              console.log(validCoordinatesArray)
+              console.log("last v v = "+lastValidValue)
 
             } else if (lastValidValue!==9 && !backtrack2) {
 
-              // console.log("backtrack 1")
-              // console.log(validCoordinatesArray)
+              console.log("backtrack 1")
+              console.log(validCoordinatesArray)
 
               let backTrackOne = validCoordinatesArray[validCoordinatesArray.length-1]
               arrayOfRegions[backTrackOne[0]][backTrackOne[1]] = "." // <---
@@ -191,9 +191,9 @@ class SudokuSolver {
               validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-1)
               lastValidValue = validCoordinatesArray[validCoordinatesArray.length-1][2]
 
-              // console.log(backTrackOne)
-              // console.log(validCoordinatesArray)
-              // console.log("last v v = "+lastValidValue)
+              console.log(backTrackOne)
+              console.log(validCoordinatesArray)
+              console.log("last v v = "+lastValidValue)
             }
             
             // -> lastValidDot region fucked up !!!!!
@@ -208,15 +208,14 @@ class SudokuSolver {
           }
         }
         
-        // console.log(arrayOfRegions[dotRegionIndex])
-        // console.log("________________")
-        // i++
+        console.log(arrayOfRegions[dotRegionIndex])
+        console.log("________________")
         i++
-        // console.log("("+i+")")
-        // console.log("  ")
+        console.log("("+i+")")
+        console.log("  ")
       }
       
-      // console.log("no empty regions found")
+      console.log("no empty regions found")
       // // console.log(arrayOfRegions)
       // console.log(checker.createPuzzleStringFromAOR(arrayOfRegions))
       

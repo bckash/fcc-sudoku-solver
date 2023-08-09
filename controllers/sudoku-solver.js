@@ -123,13 +123,13 @@ class SudokuSolver {
           return val === "."
         })
       })
-
+ 
       while (dotRegion) {
-        console.log("| EV  = "+elementValue)
-        console.log("| LVV = "+lastValidValue)
+        // console.log("| EV  = "+elementValue)
+        // console.log("| LVV = "+lastValidValue)
         dotRegionIndex = arrayOfRegions.indexOf(dotRegion)
         dotElementIndex = dotRegion.indexOf(".")
-        
+         
         let row = coordinateMatrix[dotRegionIndex][dotElementIndex][0]
         let col = coordinateMatrix[dotRegionIndex][dotElementIndex][1]
 
@@ -140,7 +140,7 @@ class SudokuSolver {
         // console.log(rowCheck)
         // console.log(colCheck)
         // console.log(regCheck)
-
+ 
         if (!rowCheck && !colCheck && !regCheck) {
           lastValidValue = elementValue
           lastValidDotRegionIndex = dotRegionIndex
@@ -164,36 +164,46 @@ class SudokuSolver {
           if (elementValue===10){
 
             if (lastValidValue===9) {
-              console.log("backtrack 2")
-              console.log(validCoordinatesArray)
-
+              // console.log("backtrack 2")
+              // console.log(validCoordinatesArray)
+ 
               backtrack2 = true // prevent code from backtracking 1, straight after, when lastValidValue changes
               let backTrackTwo = validCoordinatesArray[validCoordinatesArray.length-2]
               let backTrackTwoOne = validCoordinatesArray[validCoordinatesArray.length-1]
               arrayOfRegions[backTrackTwo[0]][backTrackTwo[1]] = "." // <---
               arrayOfRegions[backTrackTwoOne[0]][backTrackTwoOne[1]] = "."
               elementValue = backTrackTwo[2] +1
-              validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-2)
+              // console.log(validCoordinatesArray)
+              // validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-2)
+ 
+              validCoordinatesArray.length === 2
+              ? validCoordinatesArray
+              : validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-1)
+ 
               lastValidValue = validCoordinatesArray[validCoordinatesArray.length-1][2]
-
-              console.log(backTrackTwo)
-              console.log(validCoordinatesArray)
-              console.log("last v v = "+lastValidValue)
+ 
+              // console.log(backTrackTwo)
+              // console.log(validCoordinatesArray)
+              // console.log("last v v = "+lastValidValue)
 
             } else if (lastValidValue!==9 && !backtrack2) {
 
-              console.log("backtrack 1")
-              console.log(validCoordinatesArray)
+              // console.log("backtrack 1")
+              // console.log(validCoordinatesArray)
 
               let backTrackOne = validCoordinatesArray[validCoordinatesArray.length-1]
               arrayOfRegions[backTrackOne[0]][backTrackOne[1]] = "." // <---
               elementValue = backTrackOne[2] +1
-              validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-1)
-              lastValidValue = validCoordinatesArray[validCoordinatesArray.length-1][2]
 
-              console.log(backTrackOne)
-              console.log(validCoordinatesArray)
-              console.log("last v v = "+lastValidValue)
+              validCoordinatesArray.length === 1
+                ? validCoordinatesArray
+                : validCoordinatesArray = validCoordinatesArray.slice(0,validCoordinatesArray.length-1)
+
+              lastValidValue = validCoordinatesArray[validCoordinatesArray.length-1][2]
+              
+              // console.log(validCoordinatesArray)
+              // console.log(backTrackOne)
+              // console.log("last v v = "+lastValidValue)
             }
             
             // -> lastValidDot region fucked up !!!!!
@@ -205,21 +215,40 @@ class SudokuSolver {
             // console.log(arrayOfRegions[lastValidDotRegionIndex])
 
             return solveSudokuBacktracking(updatedPuzzleString, elementValue)
+            
           }
         }
-        
-        console.log(arrayOfRegions[dotRegionIndex])
-        console.log("________________")
-        i++
-        console.log("("+i+")")
-        console.log("  ")
+     
+        // console.log(arrayOfRegions[dotRegionIndex])
+        // console.log("________________")
+        // i++
+        // console.log("("+i+")")
+        // console.log("  ")
       }
-      
+       
       console.log("no empty regions found")
       // // console.log(arrayOfRegions)
       // console.log(checker.createPuzzleStringFromAOR(arrayOfRegions))
       
       return checker.createPuzzleStringFromAOR(arrayOfRegions)
+    }
+
+
+    function solvesudoku (puzzle){
+
+      arrayOfRegions = checker.createArrayOfRegions(puzzleString)
+      dotRegion = arrayOfRegions.find( region => {
+        return region.find( val => {
+          return val === "."
+        })
+      })
+
+      if (dotRegion) {
+        return checker.createPuzzleStringFromAOR(arrayOfRegions)
+      } else {
+        // chcks
+        
+      }
     }
 
     return solveSudokuBacktracking(puzzleString, 1)

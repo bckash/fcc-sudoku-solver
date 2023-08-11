@@ -236,22 +236,160 @@ class SudokuSolver {
 
     function solvesudoku (puzzle){
 
-      arrayOfRegions = checker.createArrayOfRegions(puzzleString)
+      const yCoordinates = ["1","2","3","4","5","6","7","8","9"]
+      const xCoordinates = ["a","b","c","d","e","f","g","h","i"]
+      let coordinateMatrix = checker.createCoordinateRegionsMatrix(
+      xCoordinates, yCoordinates, 9)
+      arrayOfRegions = checker.createArrayOfRegions(puzzle)
       dotRegion = arrayOfRegions.find( region => {
         return region.find( val => {
           return val === "."
         })
       })
+      let dotValueArr = []
+      let dotValue = 1
+      let dotRegionIndex
+      let dotElementIndex
+      let row
+      let col
+      let rowCheck
+      let colCheck
+      let regCheck
 
-      if (dotRegion) {
-        return checker.createPuzzleStringFromAOR(arrayOfRegions)
-      } else {
-        // chcks
+      let i=0
+      while (dotRegion) {
+
+        // ---control panel---
+        // console.log("-----------------")
+        // console.log("("+i+")")
+        // console.log("-----------------")
+        // ---control panel---
+
+        dotRegionIndex  = arrayOfRegions.indexOf(dotRegion)
+        dotElementIndex = dotRegion.indexOf(".")
+        row = coordinateMatrix[dotRegionIndex][dotElementIndex][0]
+        col = coordinateMatrix[dotRegionIndex][dotElementIndex][1]
+        rowCheck = cRow(puzzleString, row, col, dotValue.toString())
+        colCheck = cCol(puzzleString, row, col, dotValue.toString())
+        regCheck = cReg(puzzleString, row, col, dotValue.toString())  
         
+        function validation (row, col, reg) {
+          let check;
+          row===false && col===false && reg===false
+            ? check = true
+            : check = false
+          return check
+        }
+        
+        // ---control panel---
+        // console.log(rowCheck+" / "+colCheck+" / "+regCheck)
+        // console.log(validation(rowCheck, colCheck, regCheck))
+        // ---control panel---
+
+
+
+        while(!validation(rowCheck, colCheck, regCheck)) { // <---- BUG
+
+          // ---control panel---
+          // console.log("dotValue (BBT) = "+dotValue)
+          // ---control panel---
+
+          if (dotValue===9) {
+            // BACKTRACK ----------------->
+            arrayOfRegions[dotRegionIndex][dotElementIndex] = "."
+            puzzleString = checker.createPuzzleStringFromAOR(arrayOfRegions)
+            let dvaLast = dotValueArr.length-1 
+            dotRegionIndex  = dotValueArr[dvaLast][0]
+            dotElementIndex = dotValueArr[dvaLast][1]
+            dotValue        = dotValueArr[dvaLast][2]
+            dotValueArr.length === 1
+                ? dotValueArr
+                : dotValueArr = dotValueArr.slice(0,dvaLast)
+
+            // ---control panel---
+            // console.log("")
+            // console.log("-------backtrack------")
+            // console.log(coordinateMatrix[dotRegionIndex][dotElementIndex]+" / dotValue="+dotValue)
+            // console.log(arrayOfRegions[dotRegionIndex])
+            // console.log("-------backtrack------")
+            // console.log("")
+            // ---control panel---
+
+            // <------------- BACKTRACK
+          }
+
+          if (dotValue===9) {
+            // BACKTRACK 2----------------->
+            arrayOfRegions[dotRegionIndex][dotElementIndex] = "."
+            puzzleString = checker.createPuzzleStringFromAOR(arrayOfRegions)
+            let dvaLast = dotValueArr.length-1 
+            dotRegionIndex  = dotValueArr[dvaLast][0]
+            dotElementIndex = dotValueArr[dvaLast][1]
+            dotValue        = dotValueArr[dvaLast][2]
+            dotValueArr.length === 1
+                ? dotValueArr
+                : dotValueArr = dotValueArr.slice(0,dvaLast)
+
+            // ---control panel---
+            // console.log("")
+            // console.log("-------backtrack 2-----")
+            // console.log(coordinateMatrix[dotRegionIndex][dotElementIndex]+" / dotValue="+dotValue)
+            // console.log(arrayOfRegions[dotRegionIndex])
+            // console.log("-------backtrack 2-----")
+            // console.log("")
+            // ---control panel---
+
+            // <------------- BACKTRACK 2
+          }
+           
+          dotValue++
+
+          row = coordinateMatrix[dotRegionIndex][dotElementIndex][0]
+          col = coordinateMatrix[dotRegionIndex][dotElementIndex][1]
+          rowCheck = cRow(puzzleString, row, col, dotValue.toString())
+          colCheck = cCol(puzzleString, row, col, dotValue.toString())
+          regCheck = cReg(puzzleString, row, col, dotValue.toString())
+
+          // ---control panel---
+          // console.log(" - - - ")
+          // console.log("dotValue = "+dotValue)
+          // console.log("row="+row)
+          // console.log("col="+col)
+          // console.log(rowCheck+" / "+colCheck+" / "+regCheck)
+          // console.log(validation(rowCheck, colCheck, regCheck))
+          // console.log(" - - - ")
+          // ---control panel---
+        }
+ 
+
+        arrayOfRegions[dotRegionIndex][dotElementIndex] = dotValue
+                // ---control panel---
+                // console.log("=> added : "+dotValue+" , into "+ coordinateMatrix[dotRegionIndex][dotElementIndex])
+                // console.log(arrayOfRegions[dotRegionIndex])
+                // ---control panel---
+        dotValueArr.push([dotRegionIndex, dotElementIndex, dotValue])
+        puzzleString = checker.createPuzzleStringFromAOR(arrayOfRegions)
+        dotRegion = arrayOfRegions.find( region => {
+          return region.find( val => {
+            return val === "."
+          })
+        })
+        dotValue=1
+
+        i++
       }
+      console.log("i="+i)
+      return checker.createPuzzleStringFromAOR(arrayOfRegions)
+
     }
 
-    return solveSudokuBacktracking(puzzleString, 1)
+
+
+
+
+
+    // return solveSudokuBacktracking(puzzleString, 1)
+    return solvesudoku(puzzleString)
   }
 
 }

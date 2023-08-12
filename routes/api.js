@@ -39,7 +39,6 @@ module.exports = function (app) {
       } else {
         let rowCoor = coordinate[0]
         let colCoor = coordinate[1]
-        let sameValues;
 
         // check if value and puzzle value are the same
         if ((solver.checkRowPlacement(puzzle, rowCoor, colCoor, value)) === "same") {
@@ -89,6 +88,5 @@ module.exports = function (app) {
       output 
         ? res.json({error: output})
         : res.json({solution: solver.solve(puzzle)})
-   
     });
 };

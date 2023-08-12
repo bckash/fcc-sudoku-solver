@@ -180,6 +180,7 @@ class CheckFunctions {
 
       return puzzleString
     }
+
 }
 
 module.exports = CheckFunctions

@@ -13,10 +13,10 @@ module.exports = function (app) {
       let value = req.body.value
 
       // ---control panel -----
-      console.log(puzzle)
-      console.log("v = "+value)
-      console.log("c = "+coordinate)
-      console.log(".............")
+      // console.log(puzzle)
+      // console.log("v = "+value)
+      // console.log("c = "+coordinate)
+      // console.log(".............")
       // ---control panel -----
 
       const puzzleRegex = /^[\d.]+$/
@@ -94,7 +94,7 @@ module.exports = function (app) {
     .post((req, res) => {
       let puzzle = req.body.puzzle
       // ---control panel -----
-      console.log("puzzle = "+puzzle)
+      // console.log("puzzle = "+puzzle)
       // ---control panel -----
       let output = solver.validate(puzzle)
 

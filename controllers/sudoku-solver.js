@@ -15,11 +15,10 @@ class SudokuSolver {
         error = 'Expected puzzle to be 81 characters long'
 
       } else {
-
         // not number or period
         if (!numberRegex.test(puzzleString)) error = 'Invalid characters in puzzle'
+        
         else {
-
           // invalid or cannot solve puzzle { error: 'Puzzle cannot be solved' }
           let arrayOfRegions = checker.createArrayOfRegions(puzzleString)
           let validationBeforeSolving =  arrayOfRegions.find( (region, regIndx) => {
@@ -326,10 +325,8 @@ class SudokuSolver {
       }
 
       return checker.createPuzzleStringFromAOR(arrayOfRegions)
-
     }
 
-    // return solveSudokuBacktracking(puzzleString, 1)
     return solvesudoku(puzzleString)
   }
 

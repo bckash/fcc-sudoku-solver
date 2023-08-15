@@ -12,10 +12,12 @@ module.exports = function (app) {
       let coordinate = req.body.coordinate
       let value = req.body.value
 
+      // ---control panel -----
       console.log(puzzle)
       console.log("v = "+value)
       console.log("c = "+coordinate)
       console.log(".............")
+      // ---control panel -----
 
       const puzzleRegex = /^[\d.]+$/
       const coodinateRegex = /^[A-Ia-i][1-9]$/
@@ -91,7 +93,9 @@ module.exports = function (app) {
   app.route('/api/solve')
     .post((req, res) => {
       let puzzle = req.body.puzzle
+      // ---control panel -----
       console.log("puzzle = "+puzzle)
+      // ---control panel -----
       let output = solver.validate(puzzle)
 
       output 
